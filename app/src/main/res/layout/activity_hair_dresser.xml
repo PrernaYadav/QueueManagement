@@ -14,23 +14,26 @@
         layout="@layout/actionbar"
         android:id="@+id/action"/>
 
-<!--<ScrollView
+<android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">-->
+    android:layout_height="match_parent">
 
 
     <LinearLayout
+        android:id="@+id/temp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/main_logo"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
@@ -44,20 +47,27 @@
             android:text="choose your hair dresser"
             android:textAllCaps="true"
             android:gravity="center"
-            android:layout_marginTop="90dp"
-            android:textSize="14sp"
+            android:layout_marginTop="110dp"
+            android:textSize="18sp"
             android:textColor="@android:color/white"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#00aba5"
+            android:layout_marginTop="135dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"/>
 
-        <ImageView
+       <!-- <ImageView
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:src="@drawable/line_border"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="73dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:tint="#00aba5"
-            />
+            />-->
 
     </FrameLayout>
 
@@ -66,9 +76,11 @@
         android:id="@+id/rc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
 
         />
     </LinearLayout>
-<!--</ScrollView>-->
+</android.support.v4.widget.NestedScrollView>
 </LinearLayout>

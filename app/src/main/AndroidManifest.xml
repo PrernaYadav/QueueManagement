@@ -22,7 +22,8 @@
         <activity android:name=".HairDresserActivity" />
         <activity android:name=".ProfileDetailforVisitor" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ProfileDetailStaff"></activity>
+        <activity android:name=".ProfileDetailStaff" />
+        <activity android:name=".TokenActivity"></activity>
     </application>
 
 </manifest>

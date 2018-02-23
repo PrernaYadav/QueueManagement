@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Visitor"
+            android:text="Visitors"
             android:textSize="15sp"
             android:textAllCaps="true"
             android:textColor="@android:color/white"

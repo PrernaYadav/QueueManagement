@@ -29,6 +29,7 @@
             android:layout_marginTop="8dp"
             android:text="Alexander"
             android:textSize="16sp"
+            android:gravity="center"
             android:textColor="#07e7b3" />
     <LinearLayout
         android:layout_width="wrap_content"

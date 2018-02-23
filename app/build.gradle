@@ -28,4 +28,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.github.bumptech.glide:glide:3.5.2'
+    implementation 'com.mcxiaoke.volley:library-aar:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
 }

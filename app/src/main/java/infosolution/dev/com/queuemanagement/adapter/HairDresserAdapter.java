@@ -47,9 +47,9 @@ public class HairDresserAdapter extends RecyclerView.Adapter<HairDresserAdapter.
         holder.tvname.setText(hairModelArrayList.get(position).getName());
         holder.tvwaiting.setText(hairModelArrayList.get(position).getWaiting());
         holder.tvid.setText(hairModelArrayList.get(position).getId());
-        holder.ivprofile.setImageResource(hairModelArrayList.get(position).getImage());
+      //  holder.ivprofile.setImageResource(hairModelArrayList.get(position).getImage());
 
-      //  Glide.with(activityy).load(cart.getImage()).into(holder.ivprofile);
+        Glide.with(activityy).load(cart.getImage()).into(holder.ivprofile);
 
     }
 
@@ -80,7 +80,10 @@ public class HairDresserAdapter extends RecyclerView.Adapter<HairDresserAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    int Pos=getAdapterPosition();
                     Intent intent= new Intent(activityy, ProfileDetailforVisitor.class);
+                    intent.putExtra("id",hairModelArrayList.get(Pos).getId());
                     activityy.startActivity(intent);
                 }
             });

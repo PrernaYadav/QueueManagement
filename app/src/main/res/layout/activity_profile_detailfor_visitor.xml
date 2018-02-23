@@ -4,157 +4,158 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@android:color/white"
+    android:orientation="vertical"
     tools:context="infosolution.dev.com.queuemanagement.ProfileDetailforVisitor">
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:background="@drawable/bg_profiledet">
-
-<TextView
-    android:id="@+id/tv_pdvi"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Profile Details"
-    android:textStyle="bold"
-    android:textColor="@android:color/white"
-    android:textSize="18sp"
-    android:layout_gravity="center"
-    android:gravity="center"/>
-
-    </LinearLayout>
+        android:layout_height="match_parent">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profile_imagevisi"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:src="@drawable/pic"
-        app:civ_border_width="5dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="85dp"
-        app:civ_border_color="#ffffff"/>
-    <TextView
-        android:id="@+id/tv_namevi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Alexander"
-        android:layout_marginTop="230dp"
-        android:gravity="center"
-        android:textSize="18dp"
-        android:textColor="#131313"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:layout_marginTop="285dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="@drawable/bg_profiledet">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="People in Queue:-"
-        android:gravity="center"
-        android:textColor="@android:color/black"/>
-    <TextView
-        android:id="@+id/tv_peoplevi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-        android:layout_marginLeft="10dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="#131313"/>
+            <TextView
+                android:id="@+id/tv_pdvi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Profile Details"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Person"
-        android:layout_marginLeft="10dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="#131313"/>
-</LinearLayout>
+        </LinearLayout>
 
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="310dp">
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_imagevisi"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="85dp"
+            app:civ_border_color="#ffffff"
+            app:civ_border_width="5dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_namevi"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total Time:-"
+            android:layout_marginTop="230dp"
             android:gravity="center"
-            android:textColor="@android:color/black"/>
-        <TextView
-            android:id="@+id/tv_timevi"
-            android:layout_width="wrap_content"
+            android:text="Alexander"
+            android:textColor="#131313"
+            android:textSize="22dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="285dp"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="#131313"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="People in Queue:-"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tv_peoplevi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:textColor="#131313"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="Person"
+                android:textColor="#131313"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="hr"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="310dp"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="#131313"/>
-    </LinearLayout>
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_joinnow"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:text="Joins NOw!"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Total Time:-"
+                android:textColor="@android:color/black" />
 
-        android:ems="10"
-        android:textStyle="bold"
-        android:background="@drawable/rounderbtn"
-        />
-    <Button
-        android:id="@+id/btn_backvi"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="130dp"
-        android:text="Back to staff"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:ems="10"
-        android:textStyle="bold"
-        android:background="@drawable/rounderbtn"
-        />
+            <TextView
+                android:id="@+id/tv_timevi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_gravity="bottom"
-        android:background="#00aba5"/>
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:textColor="#131313"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="hr"
+                android:textColor="#131313"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_joinnow"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/rounderbtn"
+            android:ems="10"
+            android:text="Select"
+
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_backvi"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="130dp"
+            android:background="@drawable/rounderbtn"
+            android:ems="10"
+            android:text="Back to staff"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="bottom"
+            android:background="#00aba5" />
 
 
-</FrameLayout>
+    </FrameLayout>
 
 
 </LinearLayout>

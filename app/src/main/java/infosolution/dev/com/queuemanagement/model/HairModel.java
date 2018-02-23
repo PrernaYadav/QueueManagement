@@ -7,14 +7,14 @@ import android.widget.TextView;
  */
 
 public class HairModel {
-    int Image;
+    String Image;
     String Name,Waiting;
 
-    public int getImage() {
+    public String getImage() {
         return Image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         Image = image;
     }
 
