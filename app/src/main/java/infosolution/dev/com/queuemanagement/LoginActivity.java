@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL = "http://displ.net/salon-ms/api/login?staff_code=";
+        String URL = "http://devhitech.com/salon-ms/api/login?staff_code=";
         String URL2 = URL + StaffId + "&password=";
         String Url3 = URL2 + Password;
 

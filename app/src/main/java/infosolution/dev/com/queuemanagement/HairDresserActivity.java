@@ -123,7 +123,7 @@ public class HairDresserActivity extends AppCompatActivity {
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL="http://displ.net/salon-ms/api/profile_list";
+        String URL="http://devhitech.com/salon-ms/api/profile_list";
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,

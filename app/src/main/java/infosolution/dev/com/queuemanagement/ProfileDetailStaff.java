@@ -168,7 +168,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
 
 
 
-        String URL="http://displ.net/salon-ms/api/stop?staff_code="+StaffCode;
+        String URL="http://devhitech.com/salon-ms/api/stop?staff_code="+StaffCode;
 
 
         Log.i("urll",URL);
@@ -211,7 +211,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
     private void Pause() {
 
 
-        String URL="http://displ.net/salon-ms/api/pause?staff_code="+StaffCode;
+        String URL="http://devhitech.com/salon-ms/api/pause?staff_code="+StaffCode;
 
 
         Log.i("urll",URL);
@@ -254,7 +254,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
 
     private void Start() {
 
-        String URL="http://displ.net/salon-ms/api/start?staff_code="+StaffCode;
+        String URL="http://devhitech.com/salon-ms/api/start?staff_code="+StaffCode;
 
 
         Log.i("urll",URL);
@@ -304,7 +304,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL="http://displ.net/salon-ms/api/status_update?staff_code="+StaffCode;
+        String URL="http://devhitech.com/salon-ms/api/status_update?staff_code="+StaffCode;
         Log.i("urlnext",URL);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
@@ -380,7 +380,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL="http://displ.net/salon-ms/api/profile_details?staff_code="+StaffCode;
+        String URL="http://devhitech.com/salon-ms/api/profile_details?staff_code="+StaffCode;
 
 
         Log.i("urll",URL);

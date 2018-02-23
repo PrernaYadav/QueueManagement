@@ -80,7 +80,7 @@ public class ProfileDetailforVisitor extends AppCompatActivity {
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL="http://displ.net/salon-ms/api/token_generate?staff_code="+Staffcode;
+        String URL="http://devhitech.com/salon-ms/api/token_generate?staff_code="+Staffcode;
 
 
         Log.i("urlltoken",URL);
@@ -155,7 +155,7 @@ public class ProfileDetailforVisitor extends AppCompatActivity {
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL="http://displ.net/salon-ms/api/profile_details?staff_code="+Staffcode;
+        String URL="http://devhitech.com/salon-ms/api/profile_details?staff_code="+Staffcode;
 
 
         Log.i("urlltoken",URL);
