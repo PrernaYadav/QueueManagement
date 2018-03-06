@@ -23,7 +23,8 @@
         <activity android:name=".ProfileDetailforVisitor" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ProfileDetailStaff" />
-        <activity android:name=".TokenActivity"></activity>
+        <activity android:name=".TokenActivity" />
+        <activity android:name=".StoreLogin"></activity>
     </application>
 
 </manifest>

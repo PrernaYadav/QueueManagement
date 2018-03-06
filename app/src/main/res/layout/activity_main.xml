@@ -99,6 +99,14 @@
     </LinearLayout>
 
 
+    <TextView
+        android:id="@+id/tv_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Store logout"
+        android:textAllCaps="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="55dp"/>
 
 
 

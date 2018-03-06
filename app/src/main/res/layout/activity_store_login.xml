@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context="infosolution.dev.com.queuemanagement.LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/login_bg">
+
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/main_logo"/>
+
+                <TextView
+                    android:id="@+id/tv_storelogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Store login"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="true"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome back!"
+                android:textAllCaps="true"
+                android:textSize="25sp"
+                android:textColor="#00aba5"
+                android:layout_marginTop="20dp"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="40dp"
+
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/rounderet">
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/email"/>
+
+                <EditText
+                    android:id="@+id/et_storecode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:hint="Store Code"
+                    android:ems="10"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@android:color/transparent"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColorHint="#b8b8b8"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/rounderet">
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/password" />
+
+                <EditText
+                    android:id="@+id/et_storepassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:hint="Pin"
+                    android:ems="10"
+                    android:textColor="@android:color/black"
+                    android:inputType="textPassword"
+                    android:backgroundTint="@android:color/transparent"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColorHint="#b8b8b8"
+                    />
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_signinstore"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Sign in"
+                android:textSize="16sp"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/rounderbtn"
+                />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

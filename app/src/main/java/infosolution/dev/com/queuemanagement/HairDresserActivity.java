@@ -3,6 +3,8 @@ package infosolution.dev.com.queuemanagement;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +33,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,11 +52,16 @@ public class HairDresserActivity extends AppCompatActivity {
     private View view;
     private LinearLayout lltemp;
     private ProgressDialog pdLoading;
+    private String Storeid,im;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hair_dresser);
+
+
+        final SharedPreferences prefsfb = getSharedPreferences("l", MODE_PRIVATE);
+        Storeid = prefsfb.getString("store", null);
 
         lltemp=findViewById(R.id.temp);
 
@@ -92,15 +102,12 @@ public class HairDresserActivity extends AppCompatActivity {
 
         GetList();
 
-/*for (int i=0;i<=9;i++){
-    HairModel hairModel= new HairModel();
-    hairModel.setId("1");
-    hairModel.setName("test");
-    hairModel.setWaiting("5");
-    hairModel.setImage(R.drawable.pic);
-    hairModelArrayList.add(hairModel);
+        Bitmap bmap  = BitmapFactory.decodeResource(getResources(),  R.drawable.profilebg);
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        bmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+        byte [] ba = bao.toByteArray();
+        im= Base64.encodeToString(ba,Base64.DEFAULT);
 
-    rcview.setAdapter(hairDresserAdapter);*/
 }
 
 
@@ -116,6 +123,7 @@ public class HairDresserActivity extends AppCompatActivity {
     }
 
     private void GetList() {
+       // clearApplicationData();
 
         pdLoading = new ProgressDialog(HairDresserActivity.this);
         //this method will be running on UI thread
@@ -123,7 +131,7 @@ public class HairDresserActivity extends AppCompatActivity {
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL="http://devhitech.com/salon-ms/api/profile_list";
+        String URL="http://www.devhitech.com/salon-ms/api/profile_list?store_id="+Storeid;
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
@@ -200,6 +208,33 @@ public class HairDresserActivity extends AppCompatActivity {
 
 
 
+    }
+    public void clearApplicationData()
+    {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if (appDir.exists()) {
+            String[] children = appDir.list();
+            for (String s : children) {
+                if (!s.equals("lib")) {
+                    deleteDir(new File(appDir, s));Log.i("TAG", "**************** File /data/data/APP_PACKAGE/" + s + " DELETED *******************");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir)
+    {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
     }
 
    /* private void GetListR() {

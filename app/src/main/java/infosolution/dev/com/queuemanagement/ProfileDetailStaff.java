@@ -31,13 +31,14 @@ import com.bumptech.glide.Glide;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileDetailStaff extends AppCompatActivity {
 
     private TextView btnstart,btnstop,btnpause;
-    private TextView tvtime,tvpdst;
+    private TextView tvtime,tvpdst,tvtimee;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
     Handler handler;
     int Seconds, Minutes, MilliSeconds,hours;
@@ -51,6 +52,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_detail_staff);
+        clearApplicationData();
 
        /* Intent intent=getIntent();
         StaffCode=intent.getStringExtra("staffcode");*/
@@ -80,6 +82,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
         btnpause=findViewById(R.id.btn_pause);
         btnstop=findViewById(R.id.btn_stop);
         tvtime=findViewById(R.id.tv_timestaff);
+        tvtimee=findViewById(R.id.tv_timestafff);
 
 
         btnstop.setEnabled(false);
@@ -138,10 +141,12 @@ public class ProfileDetailStaff extends AppCompatActivity {
                 hours = 0 ;
                 MilliSeconds = 0 ;
 
-                tvtime.setText("00:00:00");
+             //   tvtime.setText("00:00:00");
 
                 Stop();
-
+                tvtime.setText("00:00:00");
+                tvtime.setVisibility(View.GONE);
+                tvtimee.setVisibility(View.VISIBLE);
 
                 SharedPreferences preferencesl =getSharedPreferences("Login", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editorl = preferencesl.edit();
@@ -163,10 +168,39 @@ public class ProfileDetailStaff extends AppCompatActivity {
             }
         });
     }
+    public Runnable runnable = new Runnable() {
 
+
+        public void run() {
+
+            MillisecondTime = SystemClock.uptimeMillis() - StartTime;
+
+            UpdateTime = TimeBuff + MillisecondTime;
+
+            Seconds = (int) (UpdateTime / 1000);
+
+            Minutes = Seconds / 60;
+
+            hours = Minutes / 60;
+
+            Seconds = Seconds % 60;
+
+            MilliSeconds = (int) (UpdateTime % 1000);
+
+            tvtime.setText("" +hours +":" + Minutes + ":"
+                    + String.format("%02d", Seconds));
+
+            Log.i("ahskjah","" +hours +":" + Minutes + ":"
+                    + String.format("%02d", Seconds));
+
+            handler.postDelayed(this, 0);
+        }
+
+    };
     private void Stop() {
 
 
+      //  tvtime.setText("00:00:00");
 
         String URL="http://devhitech.com/salon-ms/api/stop?staff_code="+StaffCode;
 
@@ -178,6 +212,8 @@ public class ProfileDetailStaff extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.e("pppppppppp", response);
+                      //  tvtime.setText("00:00:00");
+
 
                     //     Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
 
@@ -440,29 +476,32 @@ public class ProfileDetailStaff extends AppCompatActivity {
 
     }
 
-    public Runnable runnable = new Runnable() {
 
-        public void run() {
-
-            MillisecondTime = SystemClock.uptimeMillis() - StartTime;
-
-            UpdateTime = TimeBuff + MillisecondTime;
-
-            Seconds = (int) (UpdateTime / 1000);
-
-            Minutes = Seconds / 60;
-
-            hours = Minutes / 60;
-
-            Seconds = Seconds % 60;
-
-            MilliSeconds = (int) (UpdateTime % 1000);
-
-            tvtime.setText("" +hours +":" + Minutes + ":"
-                    + String.format("%02d", Seconds));
-
-            handler.postDelayed(this, 0);
+    public void clearApplicationData()
+    {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if (appDir.exists()) {
+            String[] children = appDir.list();
+            for (String s : children) {
+                if (!s.equals("lib")) {
+                    deleteDir(new File(appDir, s));Log.i("TAG", "**************** File /data/data/APP_PACKAGE/" + s + " DELETED *******************");
+                }
+            }
         }
+    }
 
-    };
+    public static boolean deleteDir(File dir)
+    {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
 }

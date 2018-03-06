@@ -1,6 +1,8 @@
 package infosolution.dev.com.queuemanagement;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnvisitor,btnstaff;
-    private TextView tvgetapp;
+    private TextView tvgetapp,tvlogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
 
      tvgetapp=findViewById(R.id.tv_getapp);
+        tvlogout=findViewById(R.id.tv_logout);
      btnstaff=findViewById(R.id.btn_stafflogin);
      btnvisitor=findViewById(R.id.btn_visitor);
 
@@ -41,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+        tvlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences preferencesl =getSharedPreferences("Login", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editorl = preferencesl.edit();
+                editorl.clear();
+                editorl.commit();
+
+
+                SharedPreferences preferences =getSharedPreferences("LoginStore", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+
+                Intent intent=new Intent(MainActivity.this,StoreLogin.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

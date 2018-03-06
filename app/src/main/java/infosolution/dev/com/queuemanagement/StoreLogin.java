@@ -28,48 +28,47 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class StoreLogin extends AppCompatActivity {
+
     private Button btnsignin;
-    private TextView tvstafflogin;
-    private String StaffId, Password;
-    private EditText etstaffid, etpassword;
+    private TextView tvstorelogin;
+    private String StoreId, Password;
+    private EditText etstoreid, etpassword;
     private ProgressDialog pdLoading;
-    private SharedPreferences sh_Preff;
-    private SharedPreferences.Editor editorr;
-    private static final String IS_LOGINN = "IsLoggedInn";
+    private SharedPreferences sh_Prefff;
+    private SharedPreferences.Editor editorrr;
+    private static final String IS_LOGINN = "IsLoggedIn";
     private int PRIVATE_MODE = 0;
-    private String Namegmail,Emailgmail,userIDgmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        tvstafflogin = findViewById(R.id.tv_stafflogin);
-        etstaffid = findViewById(R.id.et_staffcode);
-        etpassword = findViewById(R.id.et_staffpassword);
+        setContentView(R.layout.activity_store_login);
 
+        tvstorelogin = findViewById(R.id.tv_storelogin);
+        etstoreid = findViewById(R.id.et_storecode);
+        etpassword = findViewById(R.id.et_storepassword);
 
-        sh_Preff = getSharedPreferences("Login", PRIVATE_MODE);
-        boolean check = sh_Preff.getBoolean(IS_LOGINN, false);
+        sh_Prefff = getSharedPreferences("LoginStore", PRIVATE_MODE);
+        boolean check = sh_Prefff.getBoolean(IS_LOGINN, false);
         if (check) {
-            Intent intent = new Intent(this, ProfileDetailStaff.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
         }
 
-
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/AUDIOWIDE-REGULAR.TTF");
-        tvstafflogin.setTypeface(typeface);
-
-        btnsignin = findViewById(R.id.btn_signin);
+        tvstorelogin.setTypeface(typeface);
+        btnsignin = findViewById(R.id.btn_signinstore);
         btnsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StaffId = etstaffid.getText().toString();
+                StoreId = etstoreid.getText().toString();
                 Password = etpassword.getText().toString();
 
-                if (StaffId.length() <= 0) {
-                    etstaffid.setError("Please Enter Staff ID");
+                if (StoreId.length() <= 0) {
+                    etstoreid.setError("Please Enter Staff ID");
                 } else if (Password.length() <= 0) {
                     etpassword.setError("Please enter Password");
                 } else {
@@ -85,17 +84,17 @@ public class LoginActivity extends AppCompatActivity {
     private void Login() {
 
 
-        pdLoading = new ProgressDialog(LoginActivity.this);
+        pdLoading = new ProgressDialog(StoreLogin.this);
         //this method will be running on UI thread
         pdLoading.setMessage("\tLoading...");
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL = "http://devhitech.com/salon-ms/api/login?staff_code=";
-        String URL2 = URL + StaffId + "&password=";
+        String URL = "http://www.devhitech.com/salon-ms/api/store_login?store_code=";
+        String URL2 = URL + StoreId + "&pin=";
         String Url3 = URL2 + Password;
 
-        Log.i("urll", Url3);
+        Log.i("urllstore", Url3);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url3,
                 new Response.Listener<String>() {
@@ -120,27 +119,28 @@ public class LoginActivity extends AppCompatActivity {
                                 for (int i = 0; i < jarray.length(); i++) {
 
                                     JSONObject object = jarray.getJSONObject(i);
-                                    String Staffcode = object.getString("staff_code");
+//                                    String Staffcode = object.getString("staff_code");
                                     String StoreId = object.getString("store_id");
-                                    String StaffName = object.getString("name");
+//                                    String StaffName = object.getString("name");
 
-                                    Log.i("Data", "code" + Staffcode + "ID" + StoreId + "NAme" + StaffName);
+                                    Log.i("store", "ID" + StoreId);
+
+//                                    Log.i("Data", "code" + Staffcode + "ID" + StoreId + "NAme" + StaffName);
 
 
                                     SharedPreferences sharedPreferencesl = getApplicationContext().getSharedPreferences("l", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editorl = sharedPreferencesl.edit();
-                                    editorl.putString("staff",Staffcode);
+                                    editorl.putString("store", StoreId);
                                     editorl.commit();
 
-                                    Intent intent = new Intent(LoginActivity.this, ProfileDetailStaff.class);
-                                //    intent.putExtra("staffcode", Staffcode);
+                                    Intent intent = new Intent(StoreLogin.this, MainActivity.class);
+                                    //    intent.putExtra("staffcode", Staffcode);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                 }
                             } else {
-                                Toast.makeText(LoginActivity.this, "Please Check Your Login credential", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StoreLogin.this, "Please Check Your Login credential", Toast.LENGTH_SHORT).show();
                             }
-
 
 
                         } catch (Exception e) {
@@ -169,19 +169,20 @@ public class LoginActivity extends AppCompatActivity {
                 80000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(StoreLogin.this);
         requestQueue.add(stringRequest);
 
 
     }
 
+
     public void sharedPreferencess() {
 
-        sh_Preff = getSharedPreferences("Login", PRIVATE_MODE);
-        editorr = sh_Preff.edit();
-        editorr.putBoolean(IS_LOGINN, true);
-        editorr.putString("Username", "email");
-        editorr.putString("Password", "password");
-        editorr.commit();
+        sh_Prefff = getSharedPreferences("LoginStore", PRIVATE_MODE);
+        editorrr = sh_Prefff.edit();
+        editorrr.putBoolean(IS_LOGINN, true);
+        editorrr.putString("Username", "email");
+        editorrr.putString("Password", "password");
+        editorrr.commit();
     }
 }

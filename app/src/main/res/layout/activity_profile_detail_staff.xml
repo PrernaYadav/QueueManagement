@@ -145,6 +145,16 @@
                 android:text="00:00:00"
                 android:textColor="#131313"
                 android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_timestafff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="00:00:00"
+                android:visibility="gone"
+                android:textColor="#131313"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
