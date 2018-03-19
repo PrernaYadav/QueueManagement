@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bghair"
+    tools:context="infosolution.dev.com.queuemanagement.TokenDetailsActivity">
+
+    <include
+        layout="@layout/action_tokentransfer"
+        android:id="@+id/action"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/main_logo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_transfer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Transfer your Token"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:layout_marginTop="110dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#00aba5"
+            android:layout_marginTop="135dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <!-- <ImageView
+             android:layout_width="match_parent"
+             android:layout_height="60dp"
+             android:src="@drawable/line_border"
+             android:layout_gravity="center_horizontal"
+             android:layout_marginTop="73dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginLeft="10dp"
+             android:tint="#00aba5"
+             />-->
+
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/tvvtoken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="D-14"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:textColor="#00aba5"/>
+
+
+
+    <Button
+        android:id="@+id/btn_transf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_marginTop="20dp"
+       android:layout_gravity="center"
+        android:background="@drawable/rounderbg"
+        android:text="Transfer"
+        android:textColor="#00aba5"
+        android:textSize="25sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+      android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+
+        />
+
+</LinearLayout>

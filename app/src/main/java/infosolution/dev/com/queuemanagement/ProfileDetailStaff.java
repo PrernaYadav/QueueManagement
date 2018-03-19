@@ -11,6 +11,7 @@ import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,20 +40,34 @@ public class ProfileDetailStaff extends AppCompatActivity {
 
     private TextView btnstart,btnstop,btnpause;
     private TextView tvtime,tvpdst,tvtimee;
-    long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
-    Handler handler;
-    int Seconds, Minutes, MilliSeconds,hours;
+    long MillisecondTime, StartTime,  UpdateTime = 0L ;
+   // Handler handler;
+    int Seconds, Minutes, hours;
     private ImageView ivprofile;
     private TextView tvcompleted,tvqueue,tvname;
     private ProgressDialog pdLoading;
     private String StaffCode;
-    private LinearLayout llnext,llpause,llstart;
+    private LinearLayout llnext,llpause,llstart,llqueue;
+    long TimeBuff;
+    int MilliSeconds;
+
+
+ private    TextView tvt,tvmin,tvhours;
+    final Handler handler = new Handler();
+    int Count=00;
+    int Value=00;
+    int Hours=00;
+
+    private TextView tvqueuee;
+
+    private String Check;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_detail_staff);
-        clearApplicationData();
+    //    clearApplicationData();
 
        /* Intent intent=getIntent();
         StaffCode=intent.getStringExtra("staffcode");*/
@@ -74,90 +89,56 @@ public class ProfileDetailStaff extends AppCompatActivity {
         llnext=findViewById(R.id.llnext);
         llstart=findViewById(R.id.llstart);
         llpause=findViewById(R.id.llpause);
+        llqueue=findViewById(R.id.llqueue);
 
+        llqueue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ProfileDetailStaff.this,QueueActivity.class);
+                startActivity(intent);
 
-
-
+            }
+        });
+        tvt=findViewById(R.id.tvt);
+        tvhours=findViewById(R.id.tvthours);
+        tvmin=findViewById(R.id.tvtminut);
         btnstart=findViewById(R.id.btn_start);
         btnpause=findViewById(R.id.btn_pause);
         btnstop=findViewById(R.id.btn_stop);
-        tvtime=findViewById(R.id.tv_timestaff);
-        tvtimee=findViewById(R.id.tv_timestafff);
+       /* tvtime=findViewById(R.id.tv_timestaff);
+        tvtimee=findViewById(R.id.tv_timestafff);*/
 
 
         btnstop.setEnabled(false);
         btnpause.setEnabled(false);
 
 
-        handler = new Handler() ;
         btnstart.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                StartTime = SystemClock.uptimeMillis();
-                handler.postDelayed(runnable, 0);
-                Start();
-                btnpause.setEnabled(true);
-                btnstop.setEnabled(true);
-              /*  llstart.setBackgroundColor(getResources().getColor(R.color.start));
-                llpause.setBackgroundColor(getResources().getColor(R.color.dis));*/
-                llstart.setBackground(getResources().getDrawable(R.drawable.enable));
-                llpause.setBackground(getResources().getDrawable(R.drawable.disable));
-                btnstart.setEnabled(false);
+                Startt();
 
+                SharedPreferences sharedPreferencesl = getApplicationContext().getSharedPreferences("check", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editorl = sharedPreferencesl.edit();
+                editorl.putString("ch","A");
+                editorl.commit();
 
             }
         });
 
         btnpause.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                TimeBuff += MillisecondTime;
-                handler.removeCallbacks(runnable);
-             //   btnstop.setEnabled(true);
-                Pause();
-                /*llstart.setBackgroundColor(getResources().getColor(R.color.dis));
-                llpause.setBackgroundColor(getResources().getColor(R.color.start));*/
-
-                llpause.setBackground(getResources().getDrawable(R.drawable.enable));
-                llstart.setBackground(getResources().getDrawable(R.drawable.disable));
-                btnstart.setEnabled(true);
+                pausee();
             }
         });
 
-        btnstop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String time=tvtime.getText().toString();
-                Log.i("time",""+time);
-
-                MillisecondTime = 0L ;
-                StartTime = 0L ;
-                TimeBuff = 0L ;
-                UpdateTime = 0L ;
-                Seconds = 0 ;
-                Minutes = 0 ;
-                hours = 0 ;
-                MilliSeconds = 0 ;
-
-             //   tvtime.setText("00:00:00");
-
-                Stop();
-                tvtime.setText("00:00:00");
-                tvtime.setVisibility(View.GONE);
-                tvtimee.setVisibility(View.VISIBLE);
-
-                SharedPreferences preferencesl =getSharedPreferences("Login", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editorl = preferencesl.edit();
-                editorl.clear();
-                editorl.commit();
-
-                Intent intent=new Intent(ProfileDetailStaff.this,LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+      btnstop.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              stopp();
+          }
+      });
 
         getData();
 
@@ -168,35 +149,90 @@ public class ProfileDetailStaff extends AppCompatActivity {
             }
         });
     }
-    public Runnable runnable = new Runnable() {
 
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
 
+       Intent in= new Intent(ProfileDetailStaff.this,MainActivity.class);
+       startActivity(in);
+       finish();
+
+    }
+
+    final   Runnable runnable = new Runnable() {
+        @Override
         public void run() {
 
-            MillisecondTime = SystemClock.uptimeMillis() - StartTime;
+            Count++;
+            tvt.setText(""+Count);
 
-            UpdateTime = TimeBuff + MillisecondTime;
 
-            Seconds = (int) (UpdateTime / 1000);
 
-            Minutes = Seconds / 60;
 
-            hours = Minutes / 60;
+            if (Count == 59){
+                Count=0;
+                Value++;
+                tvmin.setText(""+Value);
 
-            Seconds = Seconds % 60;
+                if (Value == 60){
 
-            MilliSeconds = (int) (UpdateTime % 1000);
+                    Value=00;
+                    tvmin.setText(""+Value);
+                    Hours++;
+                    tvhours.setText(""+Hours);
+                }
 
-            tvtime.setText("" +hours +":" + Minutes + ":"
-                    + String.format("%02d", Seconds));
+            }
 
-            Log.i("ahskjah","" +hours +":" + Minutes + ":"
-                    + String.format("%02d", Seconds));
-
-            handler.postDelayed(this, 0);
+            handler.postDelayed(this, 1000);
         }
-
     };
+
+    public void Startt(){
+
+        handler.postDelayed(runnable, 0);
+
+        Start();
+
+        btnpause.setEnabled(true);
+        btnstop.setEnabled(true);
+     //   llpause.setBackgroundColor(getResources().getColor(R.color.dis));
+        llstart.setBackground(getResources().getDrawable(R.drawable.enable));
+        llpause.setBackground(getResources().getDrawable(R.drawable.disable));
+        btnstart.setEnabled(false);
+
+    }
+
+    public void pausee(){
+
+        handler.removeCallbacks(runnable);
+        Pause();
+
+        llpause.setBackground(getResources().getDrawable(R.drawable.enable));
+        llstart.setBackground(getResources().getDrawable(R.drawable.disable));
+        btnstart.setEnabled(true);
+
+    }
+
+    public void stopp(){
+        Count=0;
+        Hours=0;
+        Value=0;
+        Stop();
+
+        SharedPreferences preferencesl =getSharedPreferences("Login", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorl = preferencesl.edit();
+        editorl.clear();
+        editorl.commit();
+
+        Intent intent=new Intent(ProfileDetailStaff.this,LoginActivity.class);
+        startActivity(intent);
+        finish();
+
+
+    }
+
     private void Stop() {
 
 
@@ -316,9 +352,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-               /* params.put("staff_code",StaffId);
-                params.put("password",Password);
-                Log.i("params",""+params);*/
+
                 return params;
             }
         };
@@ -363,6 +397,51 @@ public class ProfileDetailStaff extends AppCompatActivity {
                                 String StaffNamee=object.getString("name");
                                 String NCPp=object.getString("number of completed person");
                                 String NPQq=object.getString("number of people in queue");
+
+                                String LoginStatus=object.getString("login_status");
+                                int Sec=object.getInt("time_sec");
+                                int Min=object.getInt("time_min");
+                                int Hourss=object.getInt("time_hour");
+
+
+                                tvhours.setText(""+Hourss);
+                                tvmin.setText(""+Min);
+                                tvt.setText(""+Sec);
+
+
+                                Log.i("TotalTime","hr:"+Hourss+"  Minuts:"+Min+"  Sec:"+Sec);
+
+                                if (LoginStatus.equals("1")){
+                                    Count=Sec;
+                                    Value=Min;
+                                    Hours=Hourss;
+
+
+
+                                    handler.postDelayed(runnable, 0);
+                                    btnpause.setEnabled(true);
+                                    btnstop.setEnabled(true);
+                                    llstart.setBackground(getResources().getDrawable(R.drawable.enable));
+                                    llpause.setBackground(getResources().getDrawable(R.drawable.disable));
+                                    btnstart.setEnabled(false);
+                                }else if (LoginStatus.equals("0")){
+
+                                    Count=Sec;
+                                    Value=Min;
+                                    Hours=Hourss;
+
+
+                                    handler.removeCallbacks(runnable);
+
+                                    if (TextUtils.isEmpty(Check)){
+                                        llpause.setBackground(getResources().getDrawable(R.drawable.disable));
+                                    }else {
+                                        llpause.setBackground(getResources().getDrawable(R.drawable.enable));
+                                    }
+
+                                    llstart.setBackground(getResources().getDrawable(R.drawable.disable));
+                                    btnstart.setEnabled(true);
+                                }
 
                                 tvname.setText(StaffNamee);
                                 tvcompleted.setText(NCPp);
@@ -409,6 +488,9 @@ public class ProfileDetailStaff extends AppCompatActivity {
 
     private void getData() {
 
+        final SharedPreferences prefslogin =getSharedPreferences("check", MODE_PRIVATE);
+        Check = prefslogin.getString("ch", null);
+
 
         pdLoading = new ProgressDialog(ProfileDetailStaff.this);
         //this method will be running on UI thread
@@ -441,11 +523,64 @@ public class ProfileDetailStaff extends AppCompatActivity {
                                 String NCP=object.getString("number of completed person");
                                 String NPQ=object.getString("number of people in queue");
 
+                                String LoginStatus=object.getString("login_status");
+                                int Sec=object.getInt("time_sec");
+                                int Min=object.getInt("time_min");
+                                int Hourss=object.getInt("time_hour");
+
+
+                                tvhours.setText(""+Hourss);
+                                tvmin.setText(""+Min);
+                                tvt.setText(""+Sec);
+
+
+                                Log.i("TotalTime","hr:"+Hourss+"  Minuts:"+Min+"  Sec:"+Sec);
+
+                                if (LoginStatus.equals("1")){
+                                    Count=Sec;
+                                    Value=Min;
+                                    Hours=Hourss;
+
+
+
+                                    handler.postDelayed(runnable, 0);
+                                    btnpause.setEnabled(true);
+                                    btnstop.setEnabled(true);
+                                    llstart.setBackground(getResources().getDrawable(R.drawable.enable));
+                                    llpause.setBackground(getResources().getDrawable(R.drawable.disable));
+                                    btnstart.setEnabled(false);
+                                }else if (LoginStatus.equals("0")){
+
+                                    Count=Sec;
+                                    Value=Min;
+                                    Hours=Hourss;
+
+
+                                    handler.removeCallbacks(runnable);
+
+                                    if (TextUtils.isEmpty(Check)){
+                                        llpause.setBackground(getResources().getDrawable(R.drawable.disable));
+                                    }else {
+                                        llpause.setBackground(getResources().getDrawable(R.drawable.enable));
+                                    }
+
+                                    llstart.setBackground(getResources().getDrawable(R.drawable.disable));
+                                    btnstart.setEnabled(true);
+                                }
+
+
+
+
                                 tvname.setText(StaffName);
                                 tvcompleted.setText(NCP);
                                 tvqueue.setText(NPQ);
                                 Glide.with(ProfileDetailStaff.this).load(Image).into(ivprofile);
+
+
                                 Log.i("Datapro","image"+Image+"NAme"+StaffName+"Ncp"+NCP+"Npq"+NPQ);
+
+
+
                             }
                         }catch (Exception e){
                         }
@@ -477,31 +612,5 @@ public class ProfileDetailStaff extends AppCompatActivity {
     }
 
 
-    public void clearApplicationData()
-    {
-        File cache = getCacheDir();
-        File appDir = new File(cache.getParent());
-        if (appDir.exists()) {
-            String[] children = appDir.list();
-            for (String s : children) {
-                if (!s.equals("lib")) {
-                    deleteDir(new File(appDir, s));Log.i("TAG", "**************** File /data/data/APP_PACKAGE/" + s + " DELETED *******************");
-                }
-            }
-        }
-    }
 
-    public static boolean deleteDir(File dir)
-    {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-        return dir.delete();
-    }
 }

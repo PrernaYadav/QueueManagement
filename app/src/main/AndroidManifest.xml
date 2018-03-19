@@ -3,6 +3,8 @@
     package="infosolution.dev.com.queuemanagement">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +26,11 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ProfileDetailStaff" />
         <activity android:name=".TokenActivity" />
-        <activity android:name=".StoreLogin"></activity>
+        <activity android:name=".StoreLogin" />
+        <activity android:name=".BTDeviceList" />
+        <activity android:name=".QueueActivity" />
+        <activity android:name=".TokenDetailsActivity" />
+        <activity android:name=".TransferToActivity"></activity>
     </application>
 
 </manifest>

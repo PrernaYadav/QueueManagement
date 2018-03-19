@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:layout_marginRight="7dp"
+    android:layout_marginTop="10dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/tt"
+        android:layout_width="180dp"
+        android:layout_height="160dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/login_bg">
+
+        <TextView
+            android:id="@+id/tv_tokenqueue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D-23"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="#00aba5"
+            />
+        <TextView
+        android:id="@+id/tv_queuedate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2018-03-16"
+        android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+        />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_transferby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sudhansh"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:maxLines="1"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_transferat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12/12/2012"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:textSize="10dp"
+            android:maxLines="1"
+            />
+
+
+        <TextView
+            android:id="@+id/queueid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

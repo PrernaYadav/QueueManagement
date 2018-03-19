@@ -6,24 +6,24 @@
     >
 
     <ImageView
-        android:id="@+id/back"
+        android:id="@+id/backqueue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
+        android:layout_marginTop="10dp"
         android:layout_centerVertical="true"
         android:src="@drawable/back"/>
 
     <TextView
-        android:id="@+id/tv"
+        android:id="@+id/tvqueuee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hair Dressers"
+        android:text="Queue List"
         android:textSize="20sp"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-       android:layout_centerInParent="true"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
-       />
+        />
 
 
 

@@ -72,6 +72,15 @@ public class ProfileDetailforVisitor extends AppCompatActivity {
         GetData();
     }
 
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        // put your code here...
+
+        GetData();
+
+    }
+
     private void GetTokan() {
 
         pdLoading = new ProgressDialog(ProfileDetailforVisitor.this);
@@ -110,6 +119,7 @@ public class ProfileDetailforVisitor extends AppCompatActivity {
                                 intent.putExtra("date",Date);
                                 intent.putExtra("Name",Name);
                                 startActivity(intent);
+                                finish();
 
 
                                 Log.i("token",""+Staffcode+""+TokenNO+""+Date);

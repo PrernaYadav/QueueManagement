@@ -136,25 +136,76 @@
                 android:text="Total Time:-"
                 android:textColor="@android:color/black" />
 
+
             <TextView
-                android:id="@+id/tv_timestaff"
+                android:id="@+id/tvthours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="00:00:00"
-                android:textColor="#131313"
+                android:text="00"
+                android:textColor="#000"
                 android:textStyle="bold" />
+
             <TextView
-                android:id="@+id/tv_timestafff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="00:00:00"
-                android:visibility="gone"
-                android:textColor="#131313"
+                android:text=":"
+                android:textColor="#000"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvtminut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="00"
+                android:textColor="#000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="#000"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tvt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="00"
+                android:textColor="#000"
+                android:textStyle="bold" />
+
+            <!-- <TextView
+                 android:id="@+id/tv_timestaff"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:gravity="center"
+                 android:text="00:00:00"
+                 android:textColor="#131313"
+                 android:textStyle="bold" />
+             <TextView
+                 android:id="@+id/tv_timestafff"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:gravity="center"
+                 android:text="00:00:00"
+                 android:visibility="gone"
+                 android:textColor="#131313"
+                 android:textStyle="bold" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -293,6 +344,32 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="20dp"
             android:background="@android:color/white">
+
+            <LinearLayout
+                android:id="@+id/llqueue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+               android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounderbg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp">
+            <TextView
+                android:id="@+id/tv_queue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp"
+
+                android:text="Queue"
+                android:textColor="#00aba5"
+                android:textSize="16dp"
+
+                />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llnext"
