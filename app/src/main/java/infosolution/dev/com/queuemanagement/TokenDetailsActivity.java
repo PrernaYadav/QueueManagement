@@ -19,7 +19,7 @@ public class TokenDetailsActivity extends AppCompatActivity {
     private View view;
     private TextView text,tvvtoken;
     private String WorkingId,token;
-    private Button btntrans;
+    private Button btntrans,btnservices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class TokenDetailsActivity extends AppCompatActivity {
         text=findViewById(R.id.tv_transfer);
         tvvtoken=findViewById(R.id.tvvtoken);
         btntrans=findViewById(R.id.btn_transf);
+        btnservices=findViewById(R.id.btn_services);
         text.setTypeface(typeface);
         tvvtoken.setTypeface(typeface);
 
@@ -53,7 +54,15 @@ public class TokenDetailsActivity extends AppCompatActivity {
             }
         });
 
+btnservices.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
 
+        Intent intent1 =new Intent(TokenDetailsActivity.this,ServiceActivity.class);
+        startActivity(intent1);
+
+    }
+});
 
 
     }

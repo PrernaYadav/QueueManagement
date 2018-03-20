@@ -133,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                                     SharedPreferences sharedPreferencesl = getApplicationContext().getSharedPreferences("l", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editorl = sharedPreferencesl.edit();
                                     editorl.putString("staff",Staffcode);
+                                    editorl.putString("storeid",StoreId);
                                     editorl.commit();
 
                                     Intent intent = new Intent(LoginActivity.this, ProfileDetailStaff.class);

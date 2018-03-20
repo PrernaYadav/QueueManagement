@@ -88,4 +88,22 @@
 
         />
 
+
+    <Button
+        android:id="@+id/btn_services"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounderbg"
+        android:text="Services"
+        android:textColor="#00aba5"
+        android:textSize="25sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+
+        />
+
 </LinearLayout>

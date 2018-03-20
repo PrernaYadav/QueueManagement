@@ -115,10 +115,17 @@ public class QueueActivity extends AppCompatActivity {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 String WorkingId = object.getString("id");
                                 String Token = object.getString("token_no");
-                                String Date = object.getString("date");
+                                String Date = object.getString("added_date");
                                 String TransferedBy = object.getString("transferred_by");
                                 String isTransfered = object.getString("is_transferred");
                                 String TransferedAt = object.getString("transferred_at");
+
+
+
+                                StringTokenizer tkk = new StringTokenizer(Date);
+                                String datee = tkk.nextToken();
+                                String timee = tkk.nextToken();
+
 
 
                                 StringTokenizer tk = new StringTokenizer(TransferedAt);
@@ -130,7 +137,7 @@ public class QueueActivity extends AppCompatActivity {
                                 QueueModel queueModel= new QueueModel();
                                 queueModel.setQueueId(WorkingId);
                                 queueModel.setTokenQueue(Token);
-                                queueModel.setDate(Date);
+                                queueModel.setDate(timee);
 
                                 if (isTransfered.equals("0")){
                                    // queueModel.setTransferBy("None");

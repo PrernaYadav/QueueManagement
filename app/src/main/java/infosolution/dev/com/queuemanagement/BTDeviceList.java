@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Created by amit on 3/7/2018.
+ * Created by Shreyansh Srivastava on 3/7/2018.
  */
 
 public class BTDeviceList extends ListActivity {
@@ -108,7 +108,7 @@ public class BTDeviceList extends ListActivity {
     }
     private int initDevicesList() {
 
-        flushData();
+        //flushData();
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -251,7 +251,7 @@ public class BTDeviceList extends ListActivity {
 
                         @Override
                         public void run() {
-                            finish();
+                           // finish();
 
                         }
                     });

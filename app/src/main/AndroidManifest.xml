@@ -30,7 +30,9 @@
         <activity android:name=".BTDeviceList" />
         <activity android:name=".QueueActivity" />
         <activity android:name=".TokenDetailsActivity" />
-        <activity android:name=".TransferToActivity"></activity>
+        <activity android:name=".TransferToActivity" />
+        <activity android:name=".ServiceActivity" />
+        <activity android:name=".ServiceListActivity"></activity>
     </application>
 
 </manifest>
