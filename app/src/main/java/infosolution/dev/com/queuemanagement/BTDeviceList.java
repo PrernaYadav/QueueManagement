@@ -47,20 +47,16 @@ public class BTDeviceList extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
         setTitle("Bluetooth Devices");
 
         try {
             if (initDevicesList() != 0) {
-
                 this.finish();
                 return;
             }
 
         } catch (Exception ex) {
-
-
             this.finish();
             return;
         }
@@ -69,8 +65,6 @@ public class BTDeviceList extends ListActivity {
                 BluetoothDevice.ACTION_FOUND);
         registerReceiver(mBTReceiver, btIntentFilter);
     }
-
-
 
     public static BluetoothSocket getSocket() {
         return mbtSocket;
@@ -108,7 +102,7 @@ public class BTDeviceList extends ListActivity {
     }
     private int initDevicesList() {
 
-        //flushData();
+        flushData();
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -189,7 +183,8 @@ public class BTDeviceList extends ListActivity {
 
                 try {
                     if (btDevices == null) {
-                        btDevices = new ArrayAdapter<BluetoothDevice>(getApplicationContext(), android.R.id.text1);
+                        btDevices = new ArrayAdapter<BluetoothDevice>(
+                                getApplicationContext(),android.R.id.text1);
                     }
 
                     if (btDevices.getPosition(device) < 0) {
@@ -220,8 +215,7 @@ public class BTDeviceList extends ListActivity {
 
         Toast.makeText(
                 getApplicationContext(),
-                "Connecting to" + btDevices.getItem(position).getName() + ","
-                        + btDevices.getItem(position).getAddress(),
+                "Connecting to " + btDevices.getItem(position).getName() + ","        + btDevices.getItem(position).getAddress(),
                 Toast.LENGTH_SHORT).show();
 
         Thread connectThread = new Thread(new Runnable() {
@@ -251,7 +245,7 @@ public class BTDeviceList extends ListActivity {
 
                         @Override
                         public void run() {
-                           // finish();
+                            finish();
 
                         }
                     });
@@ -293,4 +287,5 @@ public class BTDeviceList extends ListActivity {
         }
 
         return true;
-    }}
+    }
+}

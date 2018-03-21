@@ -10,6 +10,7 @@
     tools:context="infosolution.dev.com.queuemanagement.TokenActivity">
 
     <LinearLayout
+        android:id="@+id/llupr"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:background="@drawable/bg_profiledet">
@@ -29,6 +30,11 @@
 
 
 
+    <LinearLayout
+        android:id="@+id/scr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
     <LinearLayout
@@ -133,8 +139,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:visibility="gone"
+android:visibility="g"
         android:text="Print"/>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

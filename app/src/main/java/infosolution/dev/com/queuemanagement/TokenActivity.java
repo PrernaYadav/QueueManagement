@@ -2,15 +2,29 @@ package infosolution.dev.com.queuemanagement;
 
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.nfc.Tag;
+import android.os.Environment;
+import android.os.Handler;
+import android.support.v4.print.PrintHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -25,6 +39,10 @@ public class TokenActivity extends AppCompatActivity {
     private static BluetoothSocket btsocket;
     private static OutputStream btoutputstream, btoutputstream1, btoutputstream2;
     private TextView tvsname, tvd;
+    private LinearLayout linearLayout,llupr;
+    ImageView ivimg;
+
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,28 +55,93 @@ public class TokenActivity extends AppCompatActivity {
         btnprint = findViewById(R.id.btn_print);
         tvsname = findViewById(R.id.tvsname);
         tvd = findViewById(R.id.tvd);
-
-
+        linearLayout = findViewById(R.id.scr);
+        llupr = findViewById(R.id.llupr);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/AUDIOWIDE-REGULAR.TTF");
-
         tvpdv = findViewById(R.id.tv_pdv);
         tvpdv.setTypeface(typeface);
-
         Intent intent = getIntent();
         Name = intent.getStringExtra("Name");
         Token = intent.getStringExtra("token");
         Date = intent.getStringExtra("date");
-
         tvname.setText(Name);
         tvtoken.setText(Token);
         tvdate.setText(Date);
 
-        connect();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                takeScreenshot();
+            }
+        }, 1000);
+
+
+
 
 
     }
+    @Override
+    public void onRestart() {
+        super.onRestart();
+       finish();
 
-    private void connect() {
+    }
+    private void takeScreenshot() {
+
+        llupr.setVisibility(View.GONE);
+        btnprint.setVisibility(View.GONE);
+
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/PICTURES/Screenshots/" + "now" + ".jpg";
+
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+             bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+            File imageFile = new File(mPath);
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+
+            MediaScannerConnection.scanFile(this,
+                    new String[]{imageFile.toString()}, null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.i("ExternalStorage", "Scanned " + path + ":");
+                            Log.i("ExternalStorage", "-> uri=" + uri);
+                        }
+                    });
+
+            doPhotoPrint();
+        } catch (Throwable e) {
+            // Several error may come out with file handling or OOM
+            e.printStackTrace();
+        }
+    }
+    private void doPhotoPrint() {
+        PrintHelper photoPrinter = new PrintHelper(TokenActivity.this);
+        photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+       // Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profiledet);
+        photoPrinter.printBitmap("bg_profiledet.png - test print", bitmap);
+    }
+
+   /* private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "image*//*");
+        startActivity(intent);
+    }*/
+
+  /*  private void connect() {
 
 
         if (btsocket == null) {
@@ -98,15 +181,17 @@ public class TokenActivity extends AppCompatActivity {
             String Date = "               "+tvd.getText().toString() + " " + tvdate.getText().toString();
             String Space=" ";
 
-            byte[] arrayOfByte1 = { 27, 33, 0 };
+          *//*  byte[] arrayOfByte1 = { 27, 33, 0 };
             byte[] format = { 27, 33, 0 };
             format[2] = ((byte)(0x8 | arrayOfByte1[2]));
             format[2] = ((byte)(0x10 | arrayOfByte1[2]));
-            format[2] = ((byte) (0x20 | arrayOfByte1[2]));
+            format[2] = ((byte) (0x20 | arrayOfByte1[2]));*//*
+
+            byte[] PrintHeader = { (byte) 0xAA, 0x55,2,0 };
 
 
 //            byte[] printformat = {0x1B, 0x21, 0x8};
-            btoutputstream.write(format);
+            btoutputstream.write(PrintHeader);
 
             btoutputstream.write(Space.getBytes());
             btoutputstream.write(Space.getBytes());
@@ -133,8 +218,8 @@ public class TokenActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
-      /*  try {
+
+       *//* try {
             if(btsocket!= null){
                 btoutputstream.close();
                 btsocket.close();
@@ -142,7 +227,7 @@ public class TokenActivity extends AppCompatActivity {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }*//*
     }
 
     @Override
@@ -159,7 +244,7 @@ public class TokenActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }*/
+
+
     }
-
-
-}
