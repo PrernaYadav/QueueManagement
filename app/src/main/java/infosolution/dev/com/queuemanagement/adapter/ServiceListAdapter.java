@@ -3,6 +3,7 @@ package infosolution.dev.com.queuemanagement.adapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import infosolution.dev.com.queuemanagement.R;
+import infosolution.dev.com.queuemanagement.ServiceActivity;
 import infosolution.dev.com.queuemanagement.ServiceListActivity;
 import infosolution.dev.com.queuemanagement.model.ServiceListModel;
 import infosolution.dev.com.queuemanagement.model.ServiceModel;
@@ -127,7 +129,12 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
 
                         //hiding the progressbar after completion
                         Log.d("Response", response.toString());
-                          Toast.makeText(activityy, "responce"+response.toString(), Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(activityy, "responce"+response.toString(), Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(activityy, "Service SuccessFully Added for This Token", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(activityy, ServiceActivity.class);
+                        activityy.startActivity(intent);
+                        activityy.finish();
 
 
 

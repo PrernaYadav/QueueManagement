@@ -34,7 +34,17 @@ public class TokenDetailsActivity extends AppCompatActivity {
         editorl.putString("id",WorkingId);
         editorl.commit();
 
+        view = findViewById(R.id.actiont);
+        TextView tv = findViewById(R.id.tvtrans);
+        ImageView iv = findViewById(R.id.backtrans);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/AUDIOWIDE-REGULAR.TTF");
+        tv.setTypeface(typeface);
 
 
         text=findViewById(R.id.tv_transfer);

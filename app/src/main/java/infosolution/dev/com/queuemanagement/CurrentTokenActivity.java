@@ -7,11 +7,10 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,68 +25,73 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
-import infosolution.dev.com.queuemanagement.adapter.ServiceAdapter;
-import infosolution.dev.com.queuemanagement.adapter.ServiceListAdapter;
-import infosolution.dev.com.queuemanagement.model.ServiceListModel;
-import infosolution.dev.com.queuemanagement.model.ServiceModel;
+import infosolution.dev.com.queuemanagement.model.QueueModel;
 
-public class ServiceListActivity extends AppCompatActivity {
+public class CurrentTokenActivity extends AppCompatActivity {
     private View view;
+
+    private TextView tvtoken,tvcurrdate,tvtransferedby,tvtransferedat;
+    private LinearLayout ll;
     private ProgressDialog pdLoading;
-    private RecyclerView rcview;
-    private ServiceListAdapter serviceListAdapter;
-    private ArrayList<ServiceListModel> serviceModelArrayList;
-    private String StoreID,CategoryID;
+    private String StaffCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_list);
+        setContentView(R.layout.activity_current_token);
+
         final SharedPreferences prefslogin =getSharedPreferences("l", MODE_PRIVATE);
-        StoreID = prefslogin.getString("storeid", null);
+        StaffCode = prefslogin.getString("staff", null);
 
-        Intent intent=getIntent();
-        CategoryID=intent.getStringExtra("CatId");
 
-        view = findViewById(R.id.actionser);
-        TextView tv = findViewById(R.id.tvser);
-        ImageView iv = findViewById(R.id.backser);
+        tvtoken=findViewById(R.id.tv_tokencurr);
+        tvcurrdate=findViewById(R.id.tv_currdate);
+        tvtransferedby=findViewById(R.id.tv_transferbycurr);
+        tvtransferedat=findViewById(R.id.tv_transferatcurr);
+        ll=findViewById(R.id.llcurrr);
+
+        view = findViewById(R.id.action_curr);
+        TextView tv = findViewById(R.id.tv_curr);
+        ImageView iv = findViewById(R.id.backcurr);
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-
             }
         });
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/AUDIOWIDE-REGULAR.TTF");
         tv.setTypeface(typeface);
+        tvtoken.setTypeface(typeface);
+        GetData();
+        ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        rcview = findViewById(R.id.rv_serviceList);
-        int numberOfColumns = 2;
-        rcview.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+                Intent intent= new Intent(CurrentTokenActivity.this,ServiceActivity.class);
+                startActivity(intent);
 
-        rcview.setAdapter(serviceListAdapter);
-        serviceModelArrayList = new ArrayList<>();
-        serviceListAdapter = new ServiceListAdapter(serviceModelArrayList, this, this);
-        GetCategoryList();
+            }
+        });
+
+
+
     }
 
-    private void GetCategoryList() {
-
-        pdLoading = new ProgressDialog(ServiceListActivity.this);
+    private void GetData() {
+        pdLoading = new ProgressDialog(CurrentTokenActivity.this);
         //this method will be running on UI thread
         pdLoading.setMessage("\tLoading...");
         pdLoading.setCancelable(false);
         pdLoading.show();
 
-        String URL = "http://devhitech.com/salon-ms/api/staff/action/get/service-list?store_id="+StoreID+"&category_id="+CategoryID ;
+        String URL = "http://www.devhitech.com/salon-ms/api/staff/action/get/current-token?staff_code=" +StaffCode ;
 
-        Log.i("storeid",""+URL);
+        Log.i("urll",URL);
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
@@ -99,43 +103,55 @@ public class ServiceListActivity extends AppCompatActivity {
 
                         //hiding the progressbar after completion
                         Log.d("Response", response.toString());
-                        //  Toast.makeText(ServiceListActivity.this, "responce"+response.toString(), Toast.LENGTH_SHORT).show();
+                          //    Toast.makeText(CurrentTokenActivity.this, "responce"+response.toString(), Toast.LENGTH_SHORT).show();
+
 
                         try {
+
                             JSONObject jsono = new JSONObject(response);
                             JSONArray jsonArray = jsono.getJSONArray("data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
-                                String CatID = object.getString("id");
-                                String SerName = object.getString("service_name");
-                                String SerImage = object.getString("service_img_add");
-                                String SerPrice= object.getString("service_price");
+                                String WorkingId = object.getString("id");
+                                String Token = object.getString("token_no");
+                                String Date = object.getString("added_date");
+                                String TransferedBy = object.getString("transferred_by");
+                                String isTransfered = object.getString("is_transferred");
+                                String TransferedAt = object.getString("transferred_at");
 
-
-                                SharedPreferences sharedPreferencesl = getApplicationContext().getSharedPreferences("Service", Context.MODE_PRIVATE);
+                                SharedPreferences sharedPreferencesl = getApplicationContext().getSharedPreferences("WorkingId", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editorl = sharedPreferencesl.edit();
-                                editorl.putString("serviceid",CatID);
+                                editorl.putString("id",WorkingId);
                                 editorl.commit();
 
 
 
-                                ServiceListModel serviceModel= new ServiceListModel();
-                                serviceModel.setName(SerName);
-                                serviceModel.setId(CatID);
-                                serviceModel.setImage(SerImage);
-                                serviceModel.setPrice("Price :"+SerPrice);
-                                serviceModelArrayList.add(serviceModel);
+                                StringTokenizer tkk = new StringTokenizer(Date);
+                                String datee = tkk.nextToken();
+                                String timee = tkk.nextToken();
+
+
+
+                                StringTokenizer tk = new StringTokenizer(TransferedAt);
+                                String date = tk.nextToken();
+                                String time = tk.nextToken();
+
+                                tvtoken.setText(Token);
+                                tvcurrdate.setText(timee);
+                                if (isTransfered.equals("0")){
+                                    // queueModel.setTransferBy("None");
+                                }else {
+                                    tvtransferedby.setText("Transfered By : "+TransferedBy);
+                                    tvtransferedat.setText("Transfered At : "+time);
+                                }
+
+
 
                             }
-                            rcview.setAdapter(serviceListAdapter);
-                            serviceListAdapter.notifyDataSetChanged();
 
-                        }catch (Exception e){
-
+                        } catch (Exception e) {
 
                         }
-
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -162,7 +178,8 @@ public class ServiceListActivity extends AppCompatActivity {
                 50000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(ServiceListActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(CurrentTokenActivity.this);
         requestQueue.add(stringRequest);
+
     }
 }

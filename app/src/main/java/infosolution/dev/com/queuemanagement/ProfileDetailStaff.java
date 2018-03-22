@@ -47,7 +47,7 @@ public class ProfileDetailStaff extends AppCompatActivity {
     private TextView tvcompleted,tvqueue,tvname;
     private ProgressDialog pdLoading;
     private String StaffCode;
-    private LinearLayout llnext,llpause,llstart,llqueue;
+    private LinearLayout llnext,llpause,llstart,llqueue,llcurr,llList;
     long TimeBuff;
     int MilliSeconds;
 
@@ -61,6 +61,8 @@ public class ProfileDetailStaff extends AppCompatActivity {
     private TextView tvqueuee;
 
     private String Check;
+
+
 
 
     @Override
@@ -90,6 +92,11 @@ public class ProfileDetailStaff extends AppCompatActivity {
         llstart=findViewById(R.id.llstart);
         llpause=findViewById(R.id.llpause);
         llqueue=findViewById(R.id.llqueue);
+        llcurr=findViewById(R.id.llcurr);
+        llList=findViewById(R.id.llList);
+
+
+
 
         llqueue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +155,23 @@ public class ProfileDetailStaff extends AppCompatActivity {
                 Next();
             }
         });
+        llcurr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ProfileDetailStaff.this,CurrentTokenActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        llList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(ProfileDetailStaff.this,TaskListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override

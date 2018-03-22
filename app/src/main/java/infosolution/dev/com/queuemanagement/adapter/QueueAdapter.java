@@ -17,7 +17,7 @@ import infosolution.dev.com.queuemanagement.TokenDetailsActivity;
 import infosolution.dev.com.queuemanagement.model.QueueModel;
 
 /**
- * Created by amit on 3/16/2018.
+ * Created by Shreyansh Srivastava on 3/16/2018.
  */
 
 public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.QueueHolder> {
