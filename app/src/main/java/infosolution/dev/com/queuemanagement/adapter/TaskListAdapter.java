@@ -3,12 +3,15 @@ package infosolution.dev.com.queuemanagement.adapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import infosolution.dev.com.queuemanagement.ProfileDetailStaff;
 import infosolution.dev.com.queuemanagement.R;
 import infosolution.dev.com.queuemanagement.TaskListActivity;
 import infosolution.dev.com.queuemanagement.model.TaskModel;
@@ -83,6 +87,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
     public class TaskListHolder extends RecyclerView.ViewHolder {
 
         TextView tvname,tvassignedat,tvdeadline,tvstaffid,tvtaskid,status;
+        CheckBox chkbox;
 //        Button btncmplt;
         public TaskListHolder(View itemView, Context context, final ArrayList<TaskModel> taskModelArrayList) {
             super(itemView);
@@ -96,8 +101,21 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
             tvstaffid=itemView.findViewById(R.id.staffid);
             tvtaskid=itemView.findViewById(R.id.taskid);
             status=itemView.findViewById(R.id.status);
+            chkbox=itemView.findViewById(R.id.chk);
+            chkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    int Pos=getAdapterPosition();
+                    StaffIdd=taskModelArrayList.get(Pos).getStaffId();
+                    TaskIdd=taskModelArrayList.get(Pos).getTaskId();
 
-            btncmplt.setOnClickListener(new View.OnClickListener() {
+
+                    Complete();
+                }
+            });
+
+
+         /*   btncmplt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int Pos=getAdapterPosition();
@@ -107,7 +125,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
 
 Complete();
                 }
-            });
+            });*/
         }
     }
 
@@ -135,6 +153,10 @@ Complete();
                         Log.d("Response", response.toString());
                          //  Toast.makeText(activityy, "responce"+response.toString(), Toast.LENGTH_SHORT).show();
 
+                        Intent intent=new Intent(activityy, ProfileDetailStaff.class);
+                        activityy.startActivity(intent);
+                        activityy.finish();
+
                         try {
                             JSONObject jsono = new JSONObject(response);
                             String Status=jsono.getString("status");
@@ -144,10 +166,7 @@ Complete();
 
                         }catch (Exception e){
 
-                        }
-
-
-
+                         }
                     }
                 },
                 new Response.ErrorListener() {

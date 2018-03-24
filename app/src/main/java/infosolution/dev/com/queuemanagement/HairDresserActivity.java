@@ -56,6 +56,7 @@ public class HairDresserActivity extends AppCompatActivity {
     private ProgressDialog pdLoading;
     private String Storeid, im;
     final Handler handler = new Handler();
+    private ImageView ivad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class HairDresserActivity extends AppCompatActivity {
         Storeid = prefsfb.getString("store", null);
 
         lltemp = findViewById(R.id.temp);
+        ivad=findViewById(R.id.iv_ad);
 
         view = findViewById(R.id.action);
         TextView tv = findViewById(R.id.tv);

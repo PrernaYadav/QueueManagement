@@ -14,6 +14,15 @@
         layout="@layout/actionbar"
         android:id="@+id/action"/>
 
+    <ImageView
+        android:id="@+id/iv_ad"
+        android:layout_width="320dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/trolltunga"/>
+
 <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">

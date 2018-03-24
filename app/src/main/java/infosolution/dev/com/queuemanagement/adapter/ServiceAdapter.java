@@ -76,6 +76,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceH
                     Intent intent= new Intent(activityy, ServiceListActivity.class);
                     intent.putExtra("CatId",serviceModelArrayList.get(Pos).getId());
                     activityy.startActivity(intent);
+                    activityy.finish();
                 }
             });
 

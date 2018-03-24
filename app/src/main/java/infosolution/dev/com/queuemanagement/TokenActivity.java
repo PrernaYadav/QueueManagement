@@ -27,8 +27,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
-import infosolution.dev.com.queuemanagement.model.Formatter;
+import infosolution.dev.com.queuemanagement.printdemo.DeviceList;
+import infosolution.dev.com.queuemanagement.printdemo.PrinterCommands;
+import infosolution.dev.com.queuemanagement.printdemo.Utils;
+
 
 public class TokenActivity extends AppCompatActivity {
     private TextView tvname, tvtoken, tvdate;
@@ -43,6 +48,7 @@ public class TokenActivity extends AppCompatActivity {
     ImageView ivimg;
 
     Bitmap bitmap;
+    private static OutputStream outputStream;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +79,7 @@ public class TokenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //Do something after 100ms
-                takeScreenshot();
+              //  takeScreenshot();
             }
         }, 1000);
 
@@ -120,7 +126,10 @@ public class TokenActivity extends AppCompatActivity {
                         }
                     });
 
-            doPhotoPrint();
+            printDemo();
+
+         //   doPhotoPrint();
+
         } catch (Throwable e) {
             // Several error may come out with file handling or OOM
             e.printStackTrace();
@@ -132,6 +141,169 @@ public class TokenActivity extends AppCompatActivity {
        // Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profiledet);
         photoPrinter.printBitmap("bg_profiledet.png - test print", bitmap);
     }
+
+
+    protected void printDemo() {
+
+        if(btsocket == null){
+            Intent BTIntent = new Intent(getApplicationContext(), DeviceList.class);
+            this.startActivityForResult(BTIntent, DeviceList.REQUEST_CONNECT_BT);
+        }
+        else {
+
+            OutputStream opstream = null;
+            try {
+                opstream = btsocket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            outputStream = opstream;
+
+            //print command
+            try {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                outputStream = btsocket.getOutputStream();
+
+                byte[] printformat = {0x1B, 0 * 21, FONT_TYPE};
+                //outputStream.write(printformat);
+
+                //print title
+                //  printUnicode();
+                //print normal text
+                // printCustom(message.getText().toString(), 0, 0);
+                printPhoto();
+                printNewLine();
+                printNewLine();
+                //  printText("     >>>>   Thank you  <<<<     "); // total 32 char in a single line
+                //resetPrint(); //reset printer
+                //   printUnicode();
+                //   printNewLine();
+                //  printNewLine();
+
+                outputStream.flush();
+                finish();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    //print photo
+    public void printPhoto() {
+        try {
+            /*Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+                    img);*/
+            if(bitmap!=null){
+                byte[] command = Utils.decodeBitmap(bitmap);
+                outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
+                printText(command);
+            }else{
+                Log.e("Print Photo error", "the file isn't exists");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("PrintTools", "the file isn't exists");
+        }
+    }
+
+    //print unicode
+    public void printUnicode(){
+        try {
+            outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
+            printText(Utils.UNICODE_TEXT);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //print new line
+    private void printNewLine() {
+        try {
+            outputStream.write(PrinterCommands.FEED_LINE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //print text
+    private void printText(String msg) {
+        try {
+            // Print normal text
+            outputStream.write(msg.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //print byte[]
+    private void printText(byte[] msg) {
+        try {
+            // Print normal text
+            outputStream.write(msg);
+            printNewLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private String leftRightAlign(String str1, String str2) {
+        String ans = str1 +str2;
+        if(ans.length() <31){
+            int n = (31 - str1.length() + str2.length());
+            ans = str1 + new String(new char[n]).replace("\0", " ") + str2;
+        }
+        return ans;
+    }
+
+
+    private String[] getDateTime() {
+        final Calendar c = Calendar.getInstance();
+        String dateTime [] = new String[2];
+        dateTime[0] = c.get(Calendar.DAY_OF_MONTH) +"/"+ c.get(Calendar.MONTH) +"/"+ c.get(Calendar.YEAR);
+        dateTime[1] = c.get(Calendar.HOUR_OF_DAY) +":"+ c.get(Calendar.MINUTE);
+        return dateTime;
+    }
+
+   /* @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if(btsocket!= null){
+                outputStream.close();
+                btsocket.close();
+                btsocket = null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            btsocket = DeviceList.getSocket();
+            if(btsocket != null){
+              //  printText(message.getText().toString());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
    /* private void openScreenshot(File imageFile) {
         Intent intent = new Intent();
@@ -215,19 +387,7 @@ public class TokenActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-       *//* try {
-            if(btsocket!= null){
-                btoutputstream.close();
-                btsocket.close();
-                btsocket = null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*//*
     }
 
     @Override
