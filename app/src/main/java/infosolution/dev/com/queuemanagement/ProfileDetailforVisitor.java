@@ -42,7 +42,7 @@ import java.util.UUID;
 import infosolution.dev.com.queuemanagement.printing.DeviceListActivity;
 import infosolution.dev.com.queuemanagement.printing.UnicodeFormatter;
 
-public class ProfileDetailforVisitor extends Activity implements Runnable {
+public class ProfileDetailforVisitor extends Activity  {
     private Button btnback, btnselect;
     private TextView tvpdvi;
     private ImageView imageView;
@@ -94,7 +94,7 @@ public class ProfileDetailforVisitor extends Activity implements Runnable {
             }
         });
 
-        ivconnect = findViewById(R.id.ivprintt);
+      /*  ivconnect = findViewById(R.id.ivprintt);
         ivconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +116,7 @@ public class ProfileDetailforVisitor extends Activity implements Runnable {
                     }
                 }
             }
-        });
+        });*/
 
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "font/AUDIOWIDE-REGULAR.TTF");
@@ -186,11 +186,6 @@ public class ProfileDetailforVisitor extends Activity implements Runnable {
                                 TokenNO = object.getString("token_no");
                                 Date = object.getString("date");
                                 Name = object.getString("staff_name");
-
-
-                                //Print();
-                              //  GetData();
-
 
 
                                 Intent intent=new Intent(ProfileDetailforVisitor.this,TokenActivity.class);
@@ -303,9 +298,9 @@ public class ProfileDetailforVisitor extends Activity implements Runnable {
         requestQueue.add(stringRequest);
 
 
-    }
+    }}
 
-    public void onActivityResult(int mRequestCode, int mResultCode,
+  /*  public void onActivityResult(int mRequestCode, int mResultCode,
                                  Intent mDataIntent) {
         super.onActivityResult(mRequestCode, mResultCode, mDataIntent);
 
@@ -444,9 +439,7 @@ public class ProfileDetailforVisitor extends Activity implements Runnable {
         };
         t.start();
     }
+*/
 
 
-
-
-}
 

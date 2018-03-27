@@ -30,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -69,6 +70,9 @@ public class HairDresserActivity extends AppCompatActivity {
 
         lltemp = findViewById(R.id.temp);
         ivad=findViewById(R.id.iv_ad);
+//        ivad.setImageResource(R.drawable.ic_launcher_background);
+      //  Glide.with(HairDresserActivity.this).load(R.drawable.ic_launcher_background).into(ivad);
+
 
         view = findViewById(R.id.action);
         TextView tv = findViewById(R.id.tv);
@@ -126,7 +130,64 @@ public class HairDresserActivity extends AppCompatActivity {
 //Start
         handler.postDelayed(runnable, 5000);
 
+        GetAd();
+    }
 
+    private void GetAd() {
+
+
+        String URL = "http://www.devhitech.com/salon-ms/api/admin/action/get/ads/?store_id=" + Storeid;
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        //hiding the progressbar after completion
+                        Log.d("Response", response.toString());
+                        //   Toast.makeText(HairDresserActivity.this, "responce"+response.toString(), Toast.LENGTH_SHORT).show();
+
+
+                        try {
+
+                            JSONObject jsono = new JSONObject(response);
+//                            JSONArray jsonArray = jsono.getJSONArray("data");
+                            JSONObject data = jsono.getJSONObject("data");
+                            String Ad= data.getString("ad_img_add");
+                            Glide.with(HairDresserActivity.this).load(Ad).into(ivad);
+
+                            Log.d("Adimage", ""+Ad);
+                        } catch (Exception e) {
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //displaying the error in toast if occurrs
+                        Log.d("error", "" + error.toString());
+                        Toast.makeText(getApplicationContext(), "error" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                // params.put("user_id", userid);
+
+
+                Log.i("parameters", "" + params);
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(HairDresserActivity.this);
+        requestQueue.add(stringRequest);
     }
 
 

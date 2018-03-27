@@ -1,25 +1,40 @@
 package infosolution.dev.com.queuemanagement;
 
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.print.PrintHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.Manifest;
+import org.w3c.dom.Document;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -44,11 +59,27 @@ public class TokenActivity extends AppCompatActivity {
     private static BluetoothSocket btsocket;
     private static OutputStream btoutputstream, btoutputstream1, btoutputstream2;
     private TextView tvsname, tvd;
-    private LinearLayout linearLayout,llupr;
+    private LinearLayout linearLayout,llupr,ll_pdflayout;
     ImageView ivimg;
+    // Message types sent from the BluetoothChatService Handler
+    public static final int MESSAGE_STATE_CHANGE = 1;
+    public static final int MESSAGE_READ = 2;
+    public static final int MESSAGE_WRITE = 3;
+    public static final int MESSAGE_DEVICE_NAME = 4;
+    public static final int MESSAGE_TOAST = 5;
+
+
+    // Key names received from the BluetoothChatService Handler
+    public static final String DEVICE_NAME = "device_name";
+    public static final String TOAST = "toast";
+
+    // Intent request codes
+    private static final int REQUEST_CONNECT_DEVICE = 1;
+    private static final int REQUEST_ENABLE_BT = 2;
 
     Bitmap bitmap;
     private static OutputStream outputStream;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +110,17 @@ public class TokenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //Do something after 100ms
-              //  takeScreenshot();
+                takeScreenshot();
+
+            }
+        }, 500);
+        final Handler handlerr = new Handler();
+        handlerr.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                doPhotoPrint();
+
             }
         }, 1000);
 
@@ -87,11 +128,16 @@ public class TokenActivity extends AppCompatActivity {
 
 
 
+
+
+
     }
     @Override
-    public void onRestart() {
-        super.onRestart();
-       finish();
+    public void onPause() {
+        super.onPause();
+      // finish();
+
+        Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
 
     }
     private void takeScreenshot() {
@@ -117,6 +163,7 @@ public class TokenActivity extends AppCompatActivity {
             outputStream.close();
 
 
+
             MediaScannerConnection.scanFile(this,
                     new String[]{imageFile.toString()}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
@@ -126,153 +173,31 @@ public class TokenActivity extends AppCompatActivity {
                         }
                     });
 
-            printDemo();
 
-         //   doPhotoPrint();
+//            doPhotoPrint();
 
         } catch (Throwable e) {
             // Several error may come out with file handling or OOM
             e.printStackTrace();
         }
     }
-    private void doPhotoPrint() {
+   /* private void doPhotoPrint() {
         PrintHelper photoPrinter = new PrintHelper(TokenActivity.this);
         photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
        // Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profiledet);
         photoPrinter.printBitmap("bg_profiledet.png - test print", bitmap);
+
+    }*/
+
+    private void doPhotoPrint(){
+        PrintHelper photoPrinter=new PrintHelper(this);
+        photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+       // Bitmap bitmapp = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profiledet);
+        photoPrinter.printBitmap("droid.jpg - test print",bitmap);
     }
 
 
-    protected void printDemo() {
 
-        if(btsocket == null){
-            Intent BTIntent = new Intent(getApplicationContext(), DeviceList.class);
-            this.startActivityForResult(BTIntent, DeviceList.REQUEST_CONNECT_BT);
-        }
-        else {
-
-            OutputStream opstream = null;
-            try {
-                opstream = btsocket.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            outputStream = opstream;
-
-            //print command
-            try {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                outputStream = btsocket.getOutputStream();
-
-                byte[] printformat = {0x1B, 0 * 21, FONT_TYPE};
-                //outputStream.write(printformat);
-
-                //print title
-                //  printUnicode();
-                //print normal text
-                // printCustom(message.getText().toString(), 0, 0);
-                printPhoto();
-                printNewLine();
-                printNewLine();
-                //  printText("     >>>>   Thank you  <<<<     "); // total 32 char in a single line
-                //resetPrint(); //reset printer
-                //   printUnicode();
-                //   printNewLine();
-                //  printNewLine();
-
-                outputStream.flush();
-                finish();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-    //print photo
-    public void printPhoto() {
-        try {
-            /*Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-                    img);*/
-            if(bitmap!=null){
-                byte[] command = Utils.decodeBitmap(bitmap);
-                outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
-                printText(command);
-            }else{
-                Log.e("Print Photo error", "the file isn't exists");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("PrintTools", "the file isn't exists");
-        }
-    }
-
-    //print unicode
-    public void printUnicode(){
-        try {
-            outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
-            printText(Utils.UNICODE_TEXT);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    //print new line
-    private void printNewLine() {
-        try {
-            outputStream.write(PrinterCommands.FEED_LINE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    //print text
-    private void printText(String msg) {
-        try {
-            // Print normal text
-            outputStream.write(msg.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    //print byte[]
-    private void printText(byte[] msg) {
-        try {
-            // Print normal text
-            outputStream.write(msg);
-            printNewLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private String leftRightAlign(String str1, String str2) {
-        String ans = str1 +str2;
-        if(ans.length() <31){
-            int n = (31 - str1.length() + str2.length());
-            ans = str1 + new String(new char[n]).replace("\0", " ") + str2;
-        }
-        return ans;
-    }
-
-
-    private String[] getDateTime() {
-        final Calendar c = Calendar.getInstance();
-        String dateTime [] = new String[2];
-        dateTime[0] = c.get(Calendar.DAY_OF_MONTH) +"/"+ c.get(Calendar.MONTH) +"/"+ c.get(Calendar.YEAR);
-        dateTime[1] = c.get(Calendar.HOUR_OF_DAY) +":"+ c.get(Calendar.MINUTE);
-        return dateTime;
-    }
 
    /* @Override
     protected void onDestroy() {
@@ -289,7 +214,7 @@ public class TokenActivity extends AppCompatActivity {
     }*/
 
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
@@ -301,7 +226,7 @@ public class TokenActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
 
@@ -407,4 +332,8 @@ public class TokenActivity extends AppCompatActivity {
     }*/
 
 
-    }
+
+
+
+
+}
