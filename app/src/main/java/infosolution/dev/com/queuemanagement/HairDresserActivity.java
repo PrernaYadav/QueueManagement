@@ -131,6 +131,9 @@ public class HairDresserActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 5000);
 
         GetAd();
+
+
+
     }
 
     private void GetAd() {

@@ -3,6 +3,7 @@ package infosolution.dev.com.queuemanagement.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ import infosolution.dev.com.queuemanagement.R;
 import infosolution.dev.com.queuemanagement.model.HairModel;
 
 /**
- * Created by amit on 2/21/2018.
+ * Created by Shreyansh Srivastava on 2/21/2018.
  */
 
 public class HairDresserAdapter extends RecyclerView.Adapter<HairDresserAdapter.HairDresserHolder> {
@@ -80,6 +81,11 @@ public class HairDresserAdapter extends RecyclerView.Adapter<HairDresserAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    SharedPreferences preferencesl =activityy.getSharedPreferences("C", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editorl = preferencesl.edit();
+                    editorl.clear();
+                    editorl.commit();
 
                     int Pos=getAdapterPosition();
                     Intent intent= new Intent(activityy, ProfileDetailforVisitor.class);

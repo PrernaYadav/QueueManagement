@@ -1,8 +1,10 @@
 package infosolution.dev.com.queuemanagement;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +25,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.print.PrintHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -59,7 +62,7 @@ public class TokenActivity extends AppCompatActivity {
     private static BluetoothSocket btsocket;
     private static OutputStream btoutputstream, btoutputstream1, btoutputstream2;
     private TextView tvsname, tvd;
-    private LinearLayout linearLayout,llupr,ll_pdflayout;
+    private LinearLayout linearLayout, llupr, ll_pdflayout;
     ImageView ivimg;
     // Message types sent from the BluetoothChatService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -105,11 +108,12 @@ public class TokenActivity extends AppCompatActivity {
         tvtoken.setText(Token);
         tvdate.setText(Date);
 
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Do something after 100ms
+                //Do something
                 takeScreenshot();
 
             }
@@ -118,28 +122,16 @@ public class TokenActivity extends AppCompatActivity {
         handlerr.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Do something after 100ms
+                //Do something
                 doPhotoPrint();
 
             }
         }, 1000);
 
 
-
-
-
-
-
-
     }
-    @Override
-    public void onPause() {
-        super.onPause();
-      // finish();
 
-        Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
 
-    }
     private void takeScreenshot() {
 
         llupr.setVisibility(View.GONE);
@@ -153,7 +145,7 @@ public class TokenActivity extends AppCompatActivity {
             // create bitmap screen capture
             View v1 = getWindow().getDecorView().getRootView();
             v1.setDrawingCacheEnabled(true);
-             bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            bitmap = Bitmap.createBitmap(v1.getDrawingCache());
             v1.setDrawingCacheEnabled(false);
             File imageFile = new File(mPath);
             FileOutputStream outputStream = new FileOutputStream(imageFile);
@@ -161,7 +153,6 @@ public class TokenActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
             outputStream.flush();
             outputStream.close();
-
 
 
             MediaScannerConnection.scanFile(this,
@@ -174,45 +165,47 @@ public class TokenActivity extends AppCompatActivity {
                     });
 
 
-//            doPhotoPrint();
-
         } catch (Throwable e) {
             // Several error may come out with file handling or OOM
             e.printStackTrace();
         }
     }
-   /* private void doPhotoPrint() {
-        PrintHelper photoPrinter = new PrintHelper(TokenActivity.this);
-        photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
-       // Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profiledet);
-        photoPrinter.printBitmap("bg_profiledet.png - test print", bitmap);
 
-    }*/
 
-    private void doPhotoPrint(){
-        PrintHelper photoPrinter=new PrintHelper(this);
-        photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
-       // Bitmap bitmapp = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profiledet);
-        photoPrinter.printBitmap("droid.jpg - test print",bitmap);
+    private void doPhotoPrint() {
+
+        PrintHelper photoPrinter = new PrintHelper(this);
+        photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FILL);
+        // Bitmap bitmapp = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profiledet);
+        photoPrinter.printBitmap("droid.jpg - test print", bitmap);
+
+
     }
 
 
 
 
-   /* @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            if(btsocket!= null){
-                outputStream.close();
-                btsocket.close();
-                btsocket = null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sharedPreferencesl = getApplicationContext().getSharedPreferences("C", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorl = sharedPreferencesl.edit();
+        editorl.putString("c", "1");
+        editorl.commit();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final SharedPreferences prefsfb = getSharedPreferences("C", MODE_PRIVATE);
+        String Check = prefsfb.getString("c", null);
+        if (TextUtils.isEmpty(Check)) {
+
+        }else {
+            finish();
+        }
+    }
+}
 
    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -336,4 +329,3 @@ public class TokenActivity extends AppCompatActivity {
 
 
 
-}
